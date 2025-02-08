@@ -3,7 +3,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { getAllImages, addImage, deleteImage } = require('../models/homeSliderModel');
+const { getAllImages, addImage, updateImage, deleteImage } = require('../models/homeSliderModel');
 
 const router = express.Router();
 
@@ -32,6 +32,16 @@ router.post('/upload', upload.single('image'), (req, res) => {
     addImage(req.file.filename, (err, newImage) => {
         if (err) return res.status(500).json({ error: err.message });
         res.status(201).json(newImage);
+    });
+});
+
+// Update an image
+router.put('/update/:id', upload.single('image'), (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    updateImage(req.params.id, req.file.filename, (err, updatedImage) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(updatedImage);
     });
 });
 
