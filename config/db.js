@@ -2,7 +2,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-const dbPath = path.join(__dirname, '../homeSlider.db');
+const dbPath = path.join(__dirname, '../database.db');
 
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
@@ -12,9 +12,16 @@ const db = new sqlite3.Database(dbPath, (err) => {
     }
 });
 
-// Create table
+// Create tables if they do not exist
 db.run(`
     CREATE TABLE IF NOT EXISTS homeSlider (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        image TEXT NOT NULL
+    )
+`);
+
+db.run(`
+    CREATE TABLE IF NOT EXISTS AboutPageBanner (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         image TEXT NOT NULL
     )
